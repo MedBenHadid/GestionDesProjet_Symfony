@@ -1,0 +1,3 @@
+covoiturage_homepage:
+    path:     /
+    defaults: { _controller: CovoiturageBundle:Default:index }

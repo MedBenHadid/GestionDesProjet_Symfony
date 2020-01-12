@@ -1,0 +1,41 @@
+<html>
+
+<head>
+
+</head>
+<body>
+
+<div style="display: flex;justify-content: center">
+
+        {% for projet in nameProjet %}
+        <h1>La Liste des équipes pour le projet : {{ projet.libelle }}</h1>
+        {% endfor %}
+</div>
+    <br>
+<div style="display: flex;justify-content: center">
+
+<ul>
+        {% for Equipe in Equipes %}
+                <li>Nom de l'equipe :{{ Equipe.nom }}</li>
+                <li>Classe :{{ Equipe.classe }}</li>
+    {% for projet in nameProjet %}
+
+        <li>Voter :<a href="{{ path('vote', {'id':projet.id,'idEquipe':Equipe.id,'vote':1})  }}"  style="background-color: #636363;color:white;width: 10px;height: 10px">1</a>&nbsp;&nbsp;&nbsp;<a href="{{ path('vote', {'id':projet.id,'idEquipe':Equipe.id,'vote':3})  }}"  style="background-color: #636363;color:white;width: 40px;height: 10px">3</a>&nbsp;&nbsp;&nbsp;<a href="{{ path('vote', {'id':projet.id,'idEquipe':Equipe.id,'vote':5})  }}"  style="background-color: #636363;color:white;width: 10px;height: 10px">5</a></li>
+    {% endfor %}
+
+            <li>Score :{{ Equipe.score }}</li>
+
+            <br>
+        {% endfor %}
+</ul>
+</div>
+<h1>Top 3 !</h1>
+<ol>
+{% for t in Top3 %}
+<li>{{t.nom}}/{{t.score}}</li><br>
+
+{% endfor %}
+</ol>
+</body>
+
+</html>

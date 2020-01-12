@@ -1,0 +1,18 @@
+bal_projet_homepage:
+    path:     /
+    defaults: { _controller: BalProjetBundle:Default:index }
+List:
+    path:     /list
+    defaults: { _controller: BalProjetBundle:Default:index }
+delete:
+    path:     /delete/{id}
+    defaults: { _controller: BalProjetBundle:Default:delete }
+affecter:
+    path:     /affecter
+    defaults: { _controller: BalProjetBundle:Default:affecter }
+details:
+    path:     /details/{id}
+    defaults: { _controller: BalProjetBundle:Default:details }
+vote:
+    path:     /vote/{id}/{idEquipe}/{vote}
+    defaults: { _controller: BalProjetBundle:Default:vote }

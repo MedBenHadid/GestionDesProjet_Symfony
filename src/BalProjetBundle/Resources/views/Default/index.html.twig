@@ -1,0 +1,37 @@
+<html>
+
+<head>
+
+</head>
+<body>
+
+<div style="display: flex;justify-content: center">
+    <table border="1">
+        <tr>
+            <th>Réferance</th>
+            <th> libelle</th>
+            <th> Catégorie</th>
+
+            <th> Action</th>
+
+        </tr>
+        {% for projet in projets %}
+            <tr>
+                <td>P{{projet.id}}</td>
+                <td>{{projet.libelle}}</td>
+                <td>{{projet.categorie}}</td>
+
+                <td><a href="{{ path('delete', {'id':projet.id})  }}">Supprimer</a> </td>
+                <td><a href="{{ path('details', {'id':projet.id})  }}">Détails</a> </td>
+
+            </tr>
+        {% endfor %}
+
+    </table>
+
+
+
+
+</body>
+
+</html>
