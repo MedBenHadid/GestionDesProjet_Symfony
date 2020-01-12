@@ -5,6 +5,7 @@ namespace BalProjetBundle\Controller;
 use BalProjetBundle\Entity\Equipe;
 use BalProjetBundle\Entity\Projet;
 use BalProjetBundle\Form\EquipeType;
+use BalProjetBundle\Form\ProjetType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,13 +16,36 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+
+
         $projet = $this->getDoctrine()
             ->getRepository(Projet::class)
             ->findAll();
+        $form = $this->createFormBuilder()
+            ->add('Chercher', TextType::class)
+            ->add('send', SubmitType::class)
+            ->getForm();
 
-        return $this->render('@BalProjet/Default/index.html.twig',array('projets'=>$projet));
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->getData('Chercher')['Chercher']!=''){
+
+            $projet = $this->getDoctrine()
+                ->getRepository(Projet::class)
+                ->findBy(array('libelle'=>$form->getData('Chercher')['Chercher']));
+
+            if (empty($projet)){
+                $invalid="invalid serch";
+                return $this->render('@BalProjet/Default/index.html.twig',array('Form'=>$form->createView(), 'invalid'=>$invalid ,'projets'=>$projet));
+            }
+
+//            var_dump($form->getData('Chercher')['Chercher']);
+
+        }else{
+            $projet =$this->getDoctrine()->getRepository(Projet::class)->findAll();
+        }
+        return $this->render('@BalProjet/Default/index.html.twig',array('projets'=>$projet,'formRecherche'=>$form->createView()));
 
     }
 
@@ -44,6 +68,34 @@ class DefaultController extends Controller
         $Top3= $em->createQuery('select t FROM BalProjetBundle\Entity\Equipe t ORDER BY  t.score DESC') ->setMaxResults(3)->getResult();
         return $this->render('@BalProjet/Default/ListParProjet.html.twig',array('Equipes'=>$query,'nameProjet'=>$projet,'Top3'=>$Top3));
     }
+
+
+    public function updateAction(Request $request,$id){
+//print_r($request);
+        $manager = $this->getDoctrine()->getManager();
+        $projet = $manager->getRepository(Projet::class)->find($id);
+        //print_r($request);
+        $form =  $this->createForm(ProjetType::class, $projet);
+
+        $form =$form->handleRequest($request);
+        if($form->isSubmitted()){
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($projet);
+            $em->flush();
+            return $this->redirectToRoute('List');
+        }
+        return $this->render('@BalProjet/Default/update.html.twig',array('form'=>$form->createView()));
+
+
+
+        /*    $manager->remove($clubUpdate);
+            $manager->flush();*/
+
+        return $this->redirectToRoute('update/{$id}');
+
+    }
+
+
 
 
     public function voteAction(Request $request,$id,$idEquipe,$vote)

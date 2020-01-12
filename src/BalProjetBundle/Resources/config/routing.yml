@@ -16,3 +16,6 @@ details:
 vote:
     path:     /vote/{id}/{idEquipe}/{vote}
     defaults: { _controller: BalProjetBundle:Default:vote }
+update:
+    path:     /update/{id}
+    defaults: { _controller: BalProjetBundle:Default:update }

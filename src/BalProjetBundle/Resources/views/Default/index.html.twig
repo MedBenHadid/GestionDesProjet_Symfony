@@ -4,6 +4,8 @@
 
 </head>
 <body>
+<div style="text-align: center;">{{ form(formRecherche) }}<br>
+</div>
 
 <div style="display: flex;justify-content: center">
     <table border="1">
@@ -23,13 +25,14 @@
 
                 <td><a href="{{ path('delete', {'id':projet.id})  }}">Supprimer</a> </td>
                 <td><a href="{{ path('details', {'id':projet.id})  }}">Détails</a> </td>
+                <td><a href="{{ path('update', {'id':projet.id})  }}">Update</a> </td>
 
             </tr>
         {% endfor %}
 
     </table>
 
-
+</div>
 
 
 </body>
